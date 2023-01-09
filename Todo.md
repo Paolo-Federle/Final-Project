@@ -1,6 +1,0 @@
-- [ ] Create the user interface for the homepage, including the login and registration forms.
-- [ ] Implement the backend logic for handling user registration and login, including creating and validating user accounts, storing user data in a database, and generating and storing user tokens for authentication.
-- [ ] Build the user interface for creating and joining rooms, including a form for creating a new room and a list of available rooms that users can join.
-- [ ] Implement the backend logic for creating and managing rooms, including storing room data in a database and handling requests to create or join rooms.
-- [ ] Build the user interface for the chat feature, including a chat input field and a display for chat messages.
-- [ ] Implement the backend logic for the chat feature, including storing chat messages in a database and handling requests to send and receive messages.
