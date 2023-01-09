@@ -7,6 +7,7 @@
 - Audio and video chat: The ability to communicate with other players during games using audio and video chat.
 
 **Notes:**
+
 How to build a chat
 - web sockets (socket.io library)
 - 2 api endpoint one to receive one to get (like mails). Every X seconds it will check for new messages
