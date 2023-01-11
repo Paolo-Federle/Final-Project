@@ -12,7 +12,7 @@
 
 - Character sheet : allow users to create and manage characters on the platform, with automatic calculations and tracking for character stats, skills, and other attributes.
 
-
+Entity-Relationship Model: https://whimsical.com/final-project-VDEPtYNQSU2PHmSXHtoSNe
 
 **Notes:**
 
