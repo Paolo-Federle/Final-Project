@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import '../../CSS/HeaderMenu.css'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import LoginPage from '../users/login/LoginPage'
 
 const HeaderMenu = ({ userData, setUserData }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -43,7 +42,7 @@ const HeaderMenu = ({ userData, setUserData }) => {
                   <input type='password' required />
                 </label>
                 <br />
-                <button className='salmon-button' type='submit' handleSubmit={handleLogin}>Sign in</button>
+                <button className='salmon-button' type='submit'>Sign in</button>
                 <br />
                 <Link to='/register'>You don't have an account? Sign up</Link>
               </form>

@@ -12,9 +12,30 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               Int       @id @default(autoincrement())
+  username         String    @unique
+  password         String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  rooms            Room[]
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+}
+
+model Room {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  users     User[]
+  messages  Message[]
+}
+
+model Message {
+  id       Int  @id @default(autoincrement())
+  roomId   Int
+  room     Room @relation(fields: [roomId], references: [id])
+  senderId Int
+  sender   User @relation(name: "SentMessages", fields: [senderId], references: [id])
+  recipient   User @relation(name: "ReceivedMessages", fields: [recipientId], references: [id])
+  recipientId Int
 }

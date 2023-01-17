@@ -20,8 +20,11 @@ app.use(express.urlencoded({ extended: true }));
 // const validateToken = require('./middleware/authMiddleware.js')
 // app.use('/user', validateToken, profileRouter);
 
+
 const userRouter = require('./routers/user');
 app.use('/user', userRouter);
+const roomRouter = require('./routers/room');
+app.use('/room', roomRouter);
 
 
 // Set up a default "catch all" route to use when someone visits a route

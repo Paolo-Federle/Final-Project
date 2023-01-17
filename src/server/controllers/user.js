@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+
 const jwtSecret = 'mysecret';
 
 const register = async (req, res) => {
@@ -34,7 +35,12 @@ const login = async (req, res) => {
     res.json({ data: token });
 };
 
+const getAll = async (req, res) => {
+  console.log("user getAll")
+}
+
 module.exports = {
     register,
-    login
+    login,
+    getAll
 };
