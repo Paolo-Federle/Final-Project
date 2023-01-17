@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 const jwtSecret = 'mysecret';
 
-const register = async (req, res) => {
+export const register = async (req, res) => {
   const { username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -19,7 +19,7 @@ const register = async (req, res) => {
   res.json({ data: { id: createdUser.id, username: createdUser.username } });
 };
 
-const login = async (req, res) => {
+export const login = async (req, res) => {
     const { username, password } = req.body;
     const foundUser = await prisma.user.findUnique({
       where: { username },
@@ -35,12 +35,3 @@ const login = async (req, res) => {
     res.json({ data: token });
 };
 
-const getAll = async (req, res) => {
-  console.log("user getAll")
-}
-
-module.exports = {
-    register,
-    login,
-    getAll
-};
