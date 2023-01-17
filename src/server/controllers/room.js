@@ -1,13 +1,12 @@
 const {
-    createRoom,
-    getAllRooms
+    getAllRooms,
+    createRoom
 } = require('../domain/room' ) 
-// import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
-// import { errorCodes } from '../utils/dbClient.js'
+const { sendDataResponse, sendMessageResponse } = require('../utils/responses.js')
 
 const create = async (req, res) => {
     try {
-        const createdRoom = await createRoom(req.body)
+        const createdRoom = await createRoom()
 
         return sendDataResponse(res, 201, createdRoom)
     } catch (e) {

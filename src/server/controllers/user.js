@@ -2,11 +2,16 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { sendDataResponse, sendMessageResponse } = require('../utils/responses.js')
+const {
+  getAllUser
+} = require('../domain/user');
+
 
 
 const jwtSecret = 'mysecret';
 
-export const register = async (req, res) => {
+const register = async (req, res) => {
   const { username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -19,7 +24,7 @@ export const register = async (req, res) => {
   res.json({ data: { id: createdUser.id, username: createdUser.username } });
 };
 
-export const login = async (req, res) => {
+const login = async (req, res) => {
     const { username, password } = req.body;
     const foundUser = await prisma.user.findUnique({
       where: { username },
@@ -35,3 +40,13 @@ export const login = async (req, res) => {
     res.json({ data: token });
 };
 
+const getAll = async (req, res) => {
+  const allUsers = await getAllUser()
+  return sendDataResponse(res, 200, allUsers)
+}
+
+module.exports = {
+    register,
+    login,
+    getAll
+};

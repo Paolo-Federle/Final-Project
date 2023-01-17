@@ -1,9 +1,9 @@
 const express = require('express');
-import {  } from "module"; {
+const {
     register,
     login,
     getAll
-} from ('../controllers/user');
+} = require('../controllers/user');
 
 const router = express.Router();
 
