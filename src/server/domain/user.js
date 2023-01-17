@@ -11,6 +11,16 @@ async function getAllUser() {
     return { users: allUsers }
 }
 
+async function getUserById(id) {
+    const user = await prisma.user.findUnique({
+        where: {
+            id: id
+        }
+    })
+    return { user };
+}
+
 module.exports = {
-    getAllUser
+    getAllUser,
+    getUserById
 };

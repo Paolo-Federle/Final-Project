@@ -4,7 +4,8 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { sendDataResponse, sendMessageResponse } = require('../utils/responses.js')
 const {
-  getAllUser
+  getAllUser,
+  getUserById
 } = require('../domain/user');
 
 
@@ -25,19 +26,19 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    const { username, password } = req.body;
-    const foundUser = await prisma.user.findUnique({
-      where: { username },
-    })
-    if (!foundUser) {
-      return res.status(401).json({ error: "Invalid username or password." });
-    }
-    const passwordsMatch = await bcrypt.compare(password, foundUser.password);
-    if (!passwordsMatch) {
-      return res.status(401).json({ error: "Invalid username or password." });
-    }
-    const token = jwt.sign({ username, id: foundUser.id }, jwtSecret);
-    res.json({ data: token });
+  const { username, password } = req.body;
+  const foundUser = await prisma.user.findUnique({
+    where: { username },
+  })
+  if (!foundUser) {
+    return res.status(401).json({ error: "Invalid username or password." });
+  }
+  const passwordsMatch = await bcrypt.compare(password, foundUser.password);
+  if (!passwordsMatch) {
+    return res.status(401).json({ error: "Invalid username or password." });
+  }
+  const token = jwt.sign({ username, id: foundUser.id }, jwtSecret);
+  res.json({ data: token });
 };
 
 const getAll = async (req, res) => {
@@ -45,8 +46,21 @@ const getAll = async (req, res) => {
   return sendDataResponse(res, 200, allUsers)
 }
 
+const getById = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id)
+    const UserById = await getUserById(id)
+
+    return sendDataResponse(res, 200, UserById)
+  } catch (e) {
+    console.error(e)
+    return sendMessageResponse(res, 500, 'Unable to find user')
+  }
+}
+
 module.exports = {
-    register,
-    login,
-    getAll
+  register,
+  login,
+  getAll,
+  getById
 };
