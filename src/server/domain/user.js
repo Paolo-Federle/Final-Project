@@ -20,7 +20,17 @@ async function getUserById(id) {
     return { user };
 }
 
+async function deleteUser(id) {
+    const deletedUser = await prisma.user.delete({
+        where: {
+            id: id
+        }
+    })
+    return deletedUser;
+}
+
 module.exports = {
     getAllUser,
-    getUserById
+    getUserById,
+    deleteUser
 };

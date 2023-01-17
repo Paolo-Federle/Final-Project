@@ -24,8 +24,18 @@ async function deleteRoom(id) {
     return { deletedRoom }
 }
 
+async function getRoomById(id) {
+    const room = await prisma.room.findUnique({
+        where: {
+            id: id
+        }
+    })
+    return room;
+}
+
 module.exports = {
     getAllRooms,
     createRoom,
-    deleteRoom
+    deleteRoom,
+    getRoomById
 };

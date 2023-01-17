@@ -5,7 +5,8 @@ const prisma = new PrismaClient();
 const { sendDataResponse, sendMessageResponse } = require('../utils/responses.js')
 const {
   getAllUser,
-  getUserById
+  getUserById,
+  deleteUser
 } = require('../domain/user');
 
 
@@ -58,9 +59,22 @@ const getById = async (req, res) => {
   }
 }
 
+const deleteOne = async (req, res) => {
+  try {
+      const id =  parseInt(req.params.id)
+      const deletedUser = await deleteUser(id)
+
+      return sendDataResponse(res, 200, deletedUser)
+  } catch (e) {
+      console.error(e)
+      return sendMessageResponse(res, 500, 'Unable to delete user')
+  }
+}
+
 module.exports = {
   register,
   login,
   getAll,
-  getById
+  getById,
+  deleteOne
 };
