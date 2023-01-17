@@ -1,38 +1,51 @@
-import UserForm from './UserForm';
-import apiUrl from '../../../App.js'
+import UserForm from './UserForm'
+import { Link } from 'react-router-dom'
+import { useEffect, useState } from "react";
+import '../../../CSS/LoginPage.css'
+const apiUrl = process.env.REACT_APP_API_URL
 
-const LoginPage = ({ }) => {
-  const handleRegister = async ({ username, password }) => {
-    fetch(`${apiUrl}/user/register/`, {
-      method: "POST",
-      headers: { "Content-type": "application/JSON" },
-      body: JSON.stringify({ username, password }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }
+const LoginPage = ({setUserData}) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = async ({ username, password }) => {
-    fetch(`${apiUrl}/user/login`, {
+    const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
-    })
-      .then((res) => res.json())
-      .then((res) => localStorage.setItem("token", res.data)
-      );
+    }
+    try {
+      const response = await fetch(`${apiUrl}/user/login`, options)
+      if (!response.ok) {
+        throw new Error("Invalid Credentials");
+      }
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      setUserData({...data,token:data.token});
+      console.log(localStorage)
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  return (
-    <div>
-      <h1>Final Project</h1>
-      <h1>Register</h1>
-      <UserForm handleSubmit={handleRegister} />
+  useEffect(() => {
+    if (isLoggedIn) {
+      window.location.href = "/";
+    }
+  }, [isLoggedIn]);
 
-      <h1>Login</h1>
-      <UserForm handleSubmit={handleLogin} />
+  return (
+    <div className='gradient-background'>
+      <div className='white-space'>
+        <h1>Login</h1>
+        <UserForm handleSubmit={handleLogin} />
+        <br />
+        <Link to='/register'>
+          Need and account? Register
+        </Link>
+      </div>
     </div>
   )
 }

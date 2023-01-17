@@ -1,0 +1,13 @@
+.white-space {
+    background-color: white;
+    /* margin: 0;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%); */
+}
+
+.gradient-background {
+    background: rgb(20, 63, 107);
+    background: linear-gradient(32deg, rgba(20, 63, 107, 1) 0%, rgba(245, 83, 83, 1) 100%);
+    margin: 0;
+}
