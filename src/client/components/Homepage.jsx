@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Routes, Route, Link, Outlet } from 'react-router-dom'
+import HeaderMenu from "./header/HeaderMenu"
 import apiUrl from '../App.js'
 
-function HomePage() {
+function HomePage({ userData, setUserData }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     return (
         <div className="home-page ">
+            <Routes>
+                <Route path="/" element={<HeaderMenu userData={userData} setUserData={setUserData}/>} />
+            </Routes>
             <h1>Welcome</h1>
             {isLoggedIn ? (
                 <div>

@@ -21,8 +21,9 @@ const LoginPage = ({setUserData}) => {
         throw new Error("Invalid Credentials");
       }
       const data = await response.json();
-      localStorage.setItem("token", data.token);
-      setUserData({...data,token:data.token});
+      console.log("data ", data)
+      localStorage.setItem("token", data.data);
+      setUserData({...data,token:data.data});
       console.log(localStorage)
       setIsLoggedIn(true);
     } catch (error) {

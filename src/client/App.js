@@ -7,32 +7,33 @@ import Account from './components/users/login/Account';
 import ProjectPage from './components/Projectpage';
 import RegisterPage from './components/users/login/RegisterPage';
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
 
 function App() {
-  const [userData, setUserData] = useState('')
-  
-  // console.log(localStorage)
+  const [userData, setUserData] = useState(null)
+
+  console.log(localStorage.getItem("token"))
   useEffect(() => {
-    if (localStorage) {
-      setUserData(localStorage)
+    if (localStorage.getItem("token")) {
+      setUserData(localStorage.getItem("token"))
     }
   });
-  
+
+  console.log("App", userData)
+
 
   return (
     <div className='app-background'>
       <div className="App">
         <Routes>
-          <Route path="/" element={<HeaderMenu setUserData={setUserData} />} />
-        </Routes>
-        <Routes>
-          <Route path="/" element={<Homepage setUserData={setUserData} />} />
-          <Route path="/project" element={<ProjectPage setUserData={setUserData} />} />
-          <Route path="/games" element={<Games setUserData={setUserData} />} />
-          <Route path="/account" element={<Account setUserData={setUserData} />} />
-          <Route path="/register" element={<RegisterPage setUserData={setUserData} />} name="register" />
+          <Route path="/" element={<Homepage userData={userData} setUserData={setUserData}/>} />
+          <Route path="/project" element={<ProjectPage userData={userData} setUserData={setUserData}/>} />
+          <Route path="/register" element={<RegisterPage userData={userData} />} name="register" />
           <Route path="/login" element={<LoginPage setUserData={setUserData} />} name="login" />
+          <Route element={<AuthenticateUser />}>
+            <Route path="/games" element={<Games userData={userData} setUserData={setUserData}/>} />
+            <Route path="/account" element={<Account userData={userData} setUserData={setUserData}/>} />
+          </Route>
         </Routes>
       </div>
     </div>
@@ -40,3 +41,16 @@ function App() {
 }
 
 export default App;
+
+function isLoggedIn() {
+  const loadedToken = localStorage.getItem('token')
+  return !(loadedToken === '')
+}
+
+const AuthenticateUser = ({ children, redirectPath = '/' }) => {
+  if (!isLoggedIn()) {
+    return <Navigate to={redirectPath} replace />
+  }
+
+  return <Outlet />
+}

@@ -1,21 +1,19 @@
 import { Link } from 'react-router-dom'
 import '../../CSS/HeaderMenu.css'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import LoginPage from '../users/login/LoginPage'
 
-const HeaderMenu = ({ userData }) => {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(userData ? true : false)
+const HeaderMenu = ({ userData, setUserData }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
-  useEffect(() => {
-    if (userData) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [userData]);
-
-
+  const navigate = useNavigate()
+  const handleLogout = (event) => {
+    event.preventDefault()
+    localStorage.removeItem("token")
+    setUserData(null)
+    navigate('../', { replace: true })
+  }
 
   return (
     <div className='default-background'>
@@ -23,14 +21,13 @@ const HeaderMenu = ({ userData }) => {
         <h3><Link to='/'>Homepage</Link></h3>
         <h3><Link to='/project'>Projects</Link></h3>
         <h3><Link to='/games'>Games</Link></h3>
-        <h3><Link to='/account'>Account (temp)</Link></h3>
         <div>
           <h3 className='profile-link' onClick={() => setShowDropdown(!showDropdown)}>Profile</h3>
           <div className={`dropdown-container ${showDropdown ? 'open' : ''}`}>
-            {isLoggedIn ? (
+            {userData ? (
               <>
                 <Link to='/account'>My account</Link>
-                <Link to='/logout'>Log out</Link>
+                <Link to='/logout' onClick={handleLogout}>Log out</Link>
               </>
             ) : (
               <form className='header-form'>
@@ -46,7 +43,7 @@ const HeaderMenu = ({ userData }) => {
                   <input type='password' required />
                 </label>
                 <br />
-                <button className='salmon-button' type='submit'>Sign in</button>
+                <button className='salmon-button' type='submit' handleSubmit={handleLogin}>Sign in</button>
                 <br />
                 <Link to='/register'>You don't have an account? Sign up</Link>
               </form>
