@@ -15,7 +15,17 @@ async function createRoom() {
     return { createdRoom }
 }
 
+async function deleteRoom(id) {
+    const deletedRoom = await prisma.room.delete({
+        where: {
+            id: id
+        }
+    })
+    return { deletedRoom }
+}
+
 module.exports = {
     getAllRooms,
-    createRoom
+    createRoom,
+    deleteRoom
 };

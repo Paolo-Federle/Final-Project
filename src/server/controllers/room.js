@@ -1,6 +1,7 @@
 const {
     getAllRooms,
-    createRoom
+    createRoom,
+    deleteRoom
 } = require('../domain/room' ) 
 const { sendDataResponse, sendMessageResponse } = require('../utils/responses.js')
 
@@ -21,7 +22,20 @@ const getAll = async (req, res) => {
     return sendDataResponse(res, 200, allRooms)
 }
 
+const deleteOne = async (req, res) => {
+    try {
+        const id =  parseInt(req.params.id)
+        const deletedRoom = await deleteRoom(id)
+
+        return sendDataResponse(res, 200, deletedRoom)
+    } catch (e) {
+        console.error(e)
+        return sendMessageResponse(res, 500, 'Unable to delete room')
+    }
+}
+
 module.exports = {
     create,
-    getAll
+    getAll,
+    deleteOne
 };
