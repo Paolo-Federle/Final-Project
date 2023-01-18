@@ -1,7 +1,7 @@
 import './App.css';
 import LoginPage from './components/users/login/LoginPage'
 import Homepage from './components/Homepage'
-import Games from './components/Gamepage';
+import Games from './components/Gamepage/Gamepage';
 import Account from './components/users/login/Account';
 import ProjectPage from './components/Projectpage';
 import RegisterPage from './components/users/login/RegisterPage';
@@ -10,21 +10,25 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
 
 
 function App() {
-  const [userData, setUserData] = useState(null)
-
-  console.log(localStorage.getItem("token"))
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setUserData(localStorage.getItem("token"))
-    }
+  const [userData, setUserData] = useState({
+    token: null,
+    username: null,
+    userId: null
   });
 
-    const token = localStorage.getItem("token");
-    const [header, payload, signature] = token.split(".");
-    const decodedPayload = JSON.parse(atob(payload));
-    const userId = decodedPayload.id;
-    localStorage.setItem("userId", userId);
-    console.log('userId is ', localStorage.getItem("userId"));
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      const [header, payload, signature] = token.split(".");
+      const decodedPayload = JSON.parse(atob(payload));
+      setUserData({
+        token,
+        username: decodedPayload.username,
+        userId: decodedPayload.id
+      });
+    }
+  }, [token]);
 
 
   return (

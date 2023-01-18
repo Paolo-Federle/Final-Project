@@ -9,8 +9,6 @@ const {
   deleteUser
 } = require('../domain/user');
 
-
-
 const jwtSecret = 'mysecret';
 
 const register = async (req, res) => {
