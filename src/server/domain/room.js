@@ -33,9 +33,36 @@ async function getRoomById(id) {
     return room;
 }
 
+async function addUserToRoom(userId, roomId) {
+    const room = await prisma.room.update({
+        where: { id: roomId },
+        data: {
+            users: {
+                connect: [{ id: userId }]
+            }
+        }
+    });
+    return room;
+}
+
+async function getRoomsByUserId(userId) {
+    const rooms = await prisma.room.findMany({
+        where: {
+            users: {
+                some: {
+                    id: userId
+                }
+            }
+        }
+    });
+    return rooms;
+}
+
 module.exports = {
     getAllRooms,
     createRoom,
     deleteRoom,
-    getRoomById
+    getRoomById,
+    addUserToRoom,
+    getRoomsByUserId
 };

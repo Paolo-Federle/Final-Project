@@ -4,7 +4,9 @@ const {
     getAll,
     create,
     deleteOne,
-    getById
+    getById,
+    addUser,
+    getRoomsByUser
 } = require('../controllers/room');
 
 const router = express.Router();
@@ -12,5 +14,13 @@ router.post('/', create)
 router.get('/', getAll);
 router.delete('/:id', deleteOne);
 router.get('/:id', getById);
+router.put('/adduser', addUser)
+// http://localhost:4000/room/adduser
+// {
+//     "roomId": 4,
+//     "userId": 3
+// }
+router.get('/user/:userId', getRoomsByUser)
+
 
 module.exports = router;

@@ -21,7 +21,6 @@ const LoginPage = ({setUserData}) => {
         throw new Error("Invalid Credentials");
       }
       const data = await response.json();
-      console.log("data ", data)
       localStorage.setItem("token", data.data);
       setUserData({...data,token:data.data});
       console.log(localStorage)
@@ -33,7 +32,7 @@ const LoginPage = ({setUserData}) => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      window.location.href = "/";
+      // window.location.href = "/";
     }
   }, [isLoggedIn]);
 
