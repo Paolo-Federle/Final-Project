@@ -7,9 +7,10 @@ async function getAllRooms() {
     return { rooms: allRooms }
 }
 
-async function createRoom() {
+async function createRoom(roomName) {
     const createdRoom = await prisma.room.create({
         data: {
+            name: roomName
         }
     })
     return { createdRoom }

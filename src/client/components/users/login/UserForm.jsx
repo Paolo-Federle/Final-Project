@@ -18,8 +18,8 @@ export default function UserForm({ handleSubmit }) {
 
     return (
         <form onSubmit={handleSubmitDecorator}>
-            <input type="text" name="username" placeholder="Username" value={user.username} onChange={handleChange} />
-            <input type="password" name="password" placeholder="Password" value={user.password} onChange={handleChange} />
+            <input type="text" name="username" placeholder="Username" value={user.username} onChange={handleChange} /><br/>
+            <input type="password" name="password" placeholder="Password" value={user.password} onChange={handleChange} /><br/>
             <button type="submit">Submit</button>
         </form>
     );

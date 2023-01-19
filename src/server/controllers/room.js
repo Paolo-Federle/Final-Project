@@ -10,8 +10,9 @@ const { getUserById } = require('../domain/user')
 const { sendDataResponse, sendMessageResponse } = require('../utils/responses.js')
 
 const create = async (req, res) => {
+    const { name } = req.body;
     try {
-        const createdRoom = await createRoom()
+        const createdRoom = await createRoom(name);
 
         return sendDataResponse(res, 201, createdRoom)
     } catch (e) {
@@ -72,6 +73,9 @@ const addUser = async (req, res) => {
 
 const getRoomsByUser = async (req, res) => {
     const { userId } = req.params
+    if (!userId || isNaN(userId)) {
+        return sendMessageResponse(res, 400, 'Invalid userId')
+    }
     try {
         const rooms = await getRoomsByUserId(parseInt(userId))
         if (rooms.length === 0) {
