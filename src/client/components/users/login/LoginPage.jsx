@@ -37,7 +37,7 @@ const LoginPage = ({setUserData}) => {
   }, [isLoggedIn]);
 
   return (
-    <div className='gradient-background'>
+    <div className='center'>
       <div className='white-space'>
         <h1>Login</h1>
         <UserForm handleSubmit={handleLogin} />

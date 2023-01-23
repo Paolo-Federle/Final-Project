@@ -6,7 +6,8 @@ const {
     deleteOne,
     getById,
     addUser,
-    getRoomsByUser
+    getRoomsByUser,
+    createRoomAndAddUser
 } = require('../controllers/room');
 
 const router = express.Router();
@@ -21,6 +22,8 @@ router.put('/adduser', addUser)
 //     "userId": 3
 // }
 router.get('/user/:userId', getRoomsByUser)
+router.post('/user/:userId', createRoomAndAddUser);
+
 
 
 module.exports = router;

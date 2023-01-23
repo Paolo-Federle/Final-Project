@@ -1,0 +1,51 @@
+.message {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+  }
+  
+  .message.sent {
+    background-color: #f5d7d7;
+    padding-right: 20px;
+    text-align: right;
+  }
+  
+  .message.received {
+    background-color: #d0d9e1;
+    padding-left: 20px;
+    text-align: left;
+  }
+  
+  .message-container {
+    height: 90.5vh; 
+    overflow: auto;
+  }
+  
+  .chat-form-input {
+    width: 94%;
+    height: 30px;
+    overflow: hidden;
+  }
+  
+  .chat-form-submit {
+    width: 40px;
+    height: 35px;
+  }
+
+  .message-content {
+    margin: 0;
+    padding: 10px 0;
+    }
+    
+    .sent-by {
+    /* font-size: 1.2rem; */
+    font-size: small;
+    margin: 0;
+    }
+    
+    .sent-at {
+    font-size: smaller;
+    font-style: italic;
+    color: gray;
+    margin: 0;
+    }

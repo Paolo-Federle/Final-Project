@@ -4,22 +4,22 @@ import HeaderMenu from "./header/HeaderMenu"
 import apiUrl from '../App.js'
 
 function HomePage({ userData, setUserData }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    console.log(userData.token)
 
     return (
-        
-        <div className="home-page">
+
+        <div className="background">
             {/* add grey, padding and 100vh ^^ */}
             {/* add white */}
-            <div>
+            <div className='foreground'>
                 <Routes>
                     <Route path="/" element={<HeaderMenu userData={userData} setUserData={setUserData} />} />
                 </Routes>
                 <h1>Welcome</h1>
-                {isLoggedIn ? (
+                {userData.token ? (
                     <div>
                         <p>You are logged in!</p>
-                        <Link to="/game">Start playing</Link>
+                        <Link to="/games">Start playing</Link>
                     </div>
                 ) : (
                     <div>

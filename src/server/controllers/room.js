@@ -88,11 +88,32 @@ const getRoomsByUser = async (req, res) => {
     }
 }
 
+const createRoomAndAddUser = async (req, res) => {
+    const { name } = req.body;
+    const { userId } = req.params;
+
+    try {
+        const createdRoom = await createRoom(name);
+        const user = await getUserById(parseInt(userId));
+
+        if (!user) {
+            return sendMessageResponse(res, 404, 'User not found');
+        }
+        await addUserToRoom(parseInt(userId), createdRoom.createdRoom.id);
+
+        return sendDataResponse(res, 201, createdRoom)
+    } catch (e) {
+        console.error(e)
+        return sendMessageResponse(res, 500, 'Unable to create room and add user')
+    }
+}
+
 module.exports = {
     create,
     getAll,
     deleteOne,
     getById,
     addUser,
-    getRoomsByUser 
+    getRoomsByUser,
+    createRoomAndAddUser
 };

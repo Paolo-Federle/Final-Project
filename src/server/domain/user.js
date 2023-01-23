@@ -15,9 +15,15 @@ async function getUserById(id) {
     const user = await prisma.user.findUnique({
         where: {
             id: id
+        },
+        select: {
+            id: true,
+            username: true,
+            createdAt: true,
+            updatedAt: true
         }
     })
-    return { user };
+    return user;
 }
 
 async function deleteUser(id) {

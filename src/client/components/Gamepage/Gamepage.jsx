@@ -1,6 +1,9 @@
 import HeaderMenu from "../header/HeaderMenu"
+import RoomDetail from "./room/RoomDetail"
+
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 const apiUrl = process.env.REACT_APP_API_URL
 
 
@@ -21,9 +24,7 @@ function Games({ userData, setUserData }) {
                 if (!response.ok) {
                     throw new Error("failed to fetch");
                 }
-                // console.log('response', response)
                 const data = await response.json();
-                // console.log('data', data.data)
                 if (data.data.length > 0) {
                     setRooms(data.data)
                 }
@@ -36,11 +37,9 @@ function Games({ userData, setUserData }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!newRoomName) {
-            // alert user that the name field is required
             alert("Please enter a room name.")
             return;
         }
-        // rest of the handleSubmit function 
         const options = {
             method: "POST",
             headers: {
@@ -49,14 +48,12 @@ function Games({ userData, setUserData }) {
             body: JSON.stringify({ name: newRoomName })
         }
         try {
-            const response = await fetch(`${apiUrl}/room`, options);
+            const response = await fetch(`${apiUrl}/room/user/${userData.userId}`, options);
             if (!response.ok) {
                 throw new Error("failed to fetch");
             }
             const data = await response.json();
-            // update the rooms state to show the newly created room
-            // setRooms([...rooms, data.data])
-            // Reset the newRoomName state after the form is submitted
+            getRoomsForUser()
             setNewRoomName('');
         } catch (error) {
             console.log(error);
@@ -72,26 +69,36 @@ function Games({ userData, setUserData }) {
     }, [userData]);
 
     return (
-        <>
-            <Routes>
-                <Route path="/" element={<HeaderMenu userData={userData} setUserData={setUserData} />} />
-            </Routes>
-            <div className="Gamepage">
-                <h1>Games</h1>
-                {Array.isArray(rooms) && rooms.length > 0
-                    ? rooms.map(room => <p key={room.id}>This is room <strong>{room.name}</strong> with ID:{room.id}</p>)
-                    : <p>There's no room to show</p>
-                }
-                <h2>Create Room</h2>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Room Name:
-                        <input type="text" value={newRoomName} onChange={e => setNewRoomName(e.target.value)} />
-                    </label>
-                    <input type="submit" value="Submit" />
-                </form>
+        <div className="background">
+            <div className="foreground">
+                <Routes>
+                    <Route path="/" element={<HeaderMenu userData={userData} setUserData={setUserData} />} />
+                </Routes>
+                <div className="Gamepage">
+                    <h1>Games</h1>
+                    {Array.isArray(rooms) && rooms.length > 0
+                        ? rooms.map(room => (
+                            <div key={room.id}>
+                                <span>Room: </span>
+                                <Link to={`/games/rooms/${room.id}/detail`}>{room.name}</Link>
+                                <span> link to </span>
+                                <Link to={`/games/rooms/${room.id}/chat`}>chat</Link>
+
+                            </div>
+                        ))
+                        : <p>There's no room to show</p>
+                    }
+                    <h2>Create Room</h2>
+                    <form onSubmit={handleSubmit}>
+                        <label>
+                            Room Name:
+                            <input type="text" value={newRoomName} onChange={e => setNewRoomName(e.target.value)} />
+                        </label>
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
             </div>
-        </>
+        </div>
     );
 }
 

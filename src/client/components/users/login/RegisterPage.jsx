@@ -14,7 +14,7 @@ const RegisterPage = ({ }) => {
   }
 
   return (
-    <div>
+    <div className='center'>
       <h1>Register</h1>
       <UserForm handleSubmit={handleRegister} />
       <br />
