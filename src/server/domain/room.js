@@ -29,12 +29,20 @@ async function getRoomById(id) {
     const room = await prisma.room.findUnique({
         where: {
             id: id
+        },
+        select: {
+            id: true,
+            name: true,
+            createdAt: true,
+            updatedAt: true,
+            users: true,
+            messages: true
         }
     })
     return room;
 }
 
-async function addUserToRoom(userId, roomId) {
+async function addUserByIdToRoom(userId, roomId) {
     const room = await prisma.room.update({
         where: { id: roomId },
         data: {
@@ -59,11 +67,37 @@ async function getRoomsByUserId(userId) {
     return rooms;
 }
 
+async function addUserByUsernameToRoom(username, roomId) {
+    const room = await prisma.room.update({
+        where: { id: roomId },
+        data: {
+            users: {
+                connect: [{ username }]
+            }
+        }
+    });
+    return room;
+}
+
+async function removeUserByUsernameFromRoom(username, roomId) {
+    const room = await prisma.room.update({
+        where: { id: roomId },
+        data: {
+            users: {
+                disconnect: [{ username }]
+            }
+        }
+    });
+    return room;
+}
+
 module.exports = {
     getAllRooms,
     createRoom,
     deleteRoom,
     getRoomById,
-    addUserToRoom,
-    getRoomsByUserId
+    addUserByIdToRoom,
+    getRoomsByUserId,
+    addUserByUsernameToRoom,
+    removeUserByUsernameFromRoom
 };

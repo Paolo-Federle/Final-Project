@@ -64,7 +64,7 @@ function ChatRoom({ userData, setUserData }) {
     const debouncedInput = useMemo(() => debounce(inputMessage, 500), [inputMessage])
 
     return (
-        <div className='background'>
+        <div className=''>
             <div className='foreground'>
                 <Routes>
                     <Route path="/" element
@@ -73,9 +73,9 @@ function ChatRoom({ userData, setUserData }) {
                 <div ref={messageContainerRef} className='message-container'>
                     <h1>ChatRoom</h1>
                     {messages.map(message => (
-                        <div key={message.id} className={message.senderId === userData.userId ? 'sent message' : 'received message'}>
-                             <p className="message-content">{message.content}</p>
-                            <p className="sent-by">Sent by: {message.sender.username}</p>
+                        <div className={`${message.senderId === userData.userId ? 'sent message' : 'received message'} chat-message-container`}>
+                            <p className="sent-by">{message.sender.username}</p>
+                            <p className="message-content">{message.content}</p>
                             <p className="sent-at">Sent at: {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                         </div>
                     ))}

@@ -3,10 +3,12 @@ const {
     createRoom,
     deleteRoom,
     getRoomById,
-    addUserToRoom,
-    getRoomsByUserId
+    addUserByIdToRoom,
+    getRoomsByUserId,
+    addUserByUsernameToRoom,
+    removeUserByUsernameFromRoom
 } = require('../domain/room')
-const { getUserById } = require('../domain/user')
+const { getUserById, getUserByUsername } = require('../domain/user')
 const { sendDataResponse, sendMessageResponse } = require('../utils/responses.js')
 
 const create = async (req, res) => {
@@ -54,16 +56,16 @@ const getById = async (req, res) => {
 const addUser = async (req, res) => {
     const { roomId, userId } = req.body
     try {
-        const room = await getRoomById(roomId)
+        const room = await getRoomById(parseInt(roomId))
         if (!room) {
             return sendMessageResponse(res, 404, 'Room not found')
         }
-        const user = await getUserById(userId)
+        const user = await getUserById(parseInt(userId))
         if (!user) {
             return sendMessageResponse(res, 404, 'User not found')
         }
 
-        const updatedRoom = await addUserToRoom(userId, roomId)
+        const updatedRoom = await addUserByIdToRoom(userId, roomId)
         return sendDataResponse(res, 200, updatedRoom)
     } catch (e) {
         console.error(e)
@@ -99,12 +101,62 @@ const createRoomAndAddUser = async (req, res) => {
         if (!user) {
             return sendMessageResponse(res, 404, 'User not found');
         }
-        await addUserToRoom(parseInt(userId), createdRoom.createdRoom.id);
+        await addUserByIdToRoom(parseInt(userId), createdRoom.createdRoom.id);
 
         return sendDataResponse(res, 201, createdRoom)
     } catch (e) {
         console.error(e)
         return sendMessageResponse(res, 500, 'Unable to create room and add user')
+    }
+}
+
+const addUserByUsername = async (req, res) => {
+    const { roomId, username } = req.body
+    try {
+        const room = await getRoomById(parseInt(roomId))
+        if (!room) {
+            return sendMessageResponse(res, 404, 'Room not found')
+        }
+        const user = await getUserByUsername(username)
+        if (!user) {
+            return sendMessageResponse(res, 404, 'User not found')
+        }
+        let userAlreadyInRoom = false;
+        // Check if user is already inside the room
+        for (let i = 0; i < user.rooms.length; i++) {
+            if (user.rooms[i].id === room.id) {
+                userAlreadyInRoom = true;
+                break;
+            }
+        }
+        if (userAlreadyInRoom) {
+            return sendMessageResponse(res, 400, 'User is already in the room')
+        }
+        const updatedRoom = await addUserByUsernameToRoom(username, parseInt(roomId))
+        return sendDataResponse(res, 200, updatedRoom)
+    } catch (e) {
+        console.error(e)
+        return sendMessageResponse(res, 500, 'Unable to add user to room')
+    }
+}
+
+const removeUserByUsername = async (req, res) => {
+    const { roomId, username } = req.body;
+    try {
+        // check if room exists
+        const room = await getRoomById(parseInt(roomId));
+        if (!room) {
+            return sendMessageResponse(res, 404, 'Room not found');
+        }
+        // check if user is inside the room
+        if (!room.users.find(user => user.username === username)) {
+            return sendMessageResponse(res, 404, 'User is not inside the room');
+        }
+        const updatedRoom = await removeUserByUsernameFromRoom(username, parseInt(roomId));
+        return sendDataResponse(res, 200, updatedRoom);
+    } catch (e) {
+        console.error(e);
+        return sendMessageResponse(res, 500, 'Unable to remove user from room');
     }
 }
 
@@ -115,5 +167,7 @@ module.exports = {
     getById,
     addUser,
     getRoomsByUser,
-    createRoomAndAddUser
+    createRoomAndAddUser,
+    addUserByUsername,
+    removeUserByUsername
 };

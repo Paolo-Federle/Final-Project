@@ -20,7 +20,8 @@ async function getUserById(id) {
             id: true,
             username: true,
             createdAt: true,
-            updatedAt: true
+            updatedAt: true,
+            rooms: true
         }
     })
     return user;
@@ -35,8 +36,25 @@ async function deleteUser(id) {
     return deletedUser;
 }
 
+async function getUserByUsername(username) {
+    const user = await prisma.user.findUnique({
+        where: {
+            username: username
+        },
+        select: {
+            id: true,
+            username: true,
+            createdAt: true,
+            updatedAt: true,
+            rooms: true
+        }
+    })
+    return user;
+}
+
 module.exports = {
     getAllUser,
     getUserById,
-    deleteUser
+    deleteUser,
+    getUserByUsername
 };

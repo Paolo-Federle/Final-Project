@@ -1,13 +1,24 @@
 .white-space {
     background-color: white;
-    /* margin: 0;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%); */
+    width: 450px;
+    padding-bottom: 30px;
 }
 
 .gradient-background {
-    background: rgb(20, 63, 107);
-    background: linear-gradient(32deg, rgba(20, 63, 107, 1) 0%, rgba(245, 83, 83, 1) 100%);
     margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.gradient-login {
+    background: rgba(20, 63, 107, 0.1);
+    /* background: linear-gradient(32deg, rgba(20, 63, 107, 1) 0%, rgba(245, 83, 83, 1) 100%); */
+}
+
+.gradient-register {
+    background: rgba(245, 83, 83, 0.1);
+    /* background: linear-gradient(-32deg, rgba(20, 63, 107, 1) 0%, rgba(245, 83, 83, 1) 100%); */
 }

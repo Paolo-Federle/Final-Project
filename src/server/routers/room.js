@@ -7,22 +7,21 @@ const {
     getById,
     addUser,
     getRoomsByUser,
-    createRoomAndAddUser
+    createRoomAndAddUser,
+    addUserByUsername,
+    removeUserByUsername
 } = require('../controllers/room');
 
 const router = express.Router();
 router.post('/', create)
 router.get('/', getAll);
 router.delete('/:id', deleteOne);
+router.delete('/:id/user', removeUserByUsername);
 router.get('/:id', getById);
 router.put('/adduser', addUser)
-// http://localhost:4000/room/adduser
-// {
-//     "roomId": 4,
-//     "userId": 3
-// }
 router.get('/user/:userId', getRoomsByUser)
 router.post('/user/:userId', createRoomAndAddUser);
+router.put('/adduserByUsername', addUserByUsername)
 
 
 

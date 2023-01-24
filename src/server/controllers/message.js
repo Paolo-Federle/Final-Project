@@ -9,9 +9,6 @@ const create = async (req, res) => {
     try {
         // add check for roomId and userID
         // maybe just import those functions that should have a check
-        console.log('content ', content)
-        console.log('roomId ', roomId)
-        console.log('userId ', userId)
         const createdMessage = await createMessage(content, parseInt(roomId), parseInt(userId));
 
         return sendDataResponse(res, 201, createdMessage);
@@ -26,10 +23,7 @@ const getByRoom = async (req, res) => {
     try {
         // add check for roomId
         // maybe just import those functions that should have a check
-        console.log('req.params ', req.params)
-        console.log('roomId ', roomId)
         const messages = await getByRoomId(parseInt(roomId));
-        console.log('messages ', messages)
         return sendDataResponse(res, 200, messages);
     } catch (error) {
         console.error(error);

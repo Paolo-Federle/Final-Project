@@ -6,7 +6,8 @@ const { sendDataResponse, sendMessageResponse } = require('../utils/responses.js
 const {
   getAllUser,
   getUserById,
-  deleteUser
+  deleteUser,
+  getUserByUsername 
 } = require('../domain/user');
 
 const jwtSecret = 'mysecret';
@@ -69,10 +70,27 @@ const deleteOne = async (req, res) => {
   }
 }
 
+const getByUsername = async (req, res) => {
+  try {
+      const { username } = req.params;
+      const user = await getUserByUsername(username);
+      if (!user) {
+          return sendMessageResponse(res, 404, 'User not found');
+      }
+      return sendDataResponse(res, 200, user);
+  } catch (error) {
+      console.error(error);
+      return sendMessageResponse(res, 500, 'Unable to find user');
+  }
+}
+
+
+
 module.exports = {
   register,
   login,
   getAll,
   getById,
-  deleteOne
+  deleteOne,
+  getByUsername
 };

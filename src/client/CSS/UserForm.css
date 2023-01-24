@@ -1,0 +1,28 @@
+.userform-label {
+    display: block;
+}
+
+.userform-form {
+    width: 350px;
+    margin: auto;
+    text-align: left;
+}
+
+.userform-input {
+    width: 350px;
+}
+
+.userform-username {
+    display: block;
+}
+
+.userform-password {
+    display: block;
+}
+
+.userform-button{
+    width: 358px;
+    margin: 5px 0;
+    padding:12px 25px;
+}
+

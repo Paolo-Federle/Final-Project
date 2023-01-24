@@ -7,6 +7,7 @@ import ChatRoom from './components/Gamepage/room/ChatRoom';
 import Account from './components/users/login/Account';
 import ProjectPage from './components/Projectpage';
 import RegisterPage from './components/users/login/RegisterPage';
+import RoomCanvas from './components/Gamepage/room/RoomCanvas'
 import { useState, useEffect } from 'react'
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import io from 'socket.io-client'
@@ -53,6 +54,7 @@ function App() {
         <Route path="/login" element={<LoginPage setUserData={setUserData} />} name="login" />
         <Route path="/" element={<Homepage userData={userData} setUserData={setUserData} />} />
         <Route path="/project" element={<ProjectPage userData={userData} setUserData={setUserData} />} />
+        <Route path="/canvas" element={<RoomCanvas userData={userData} setUserData={setUserData} />} />
         <Route element={<AuthenticateUser userData={userData} redirectPath="/login" />}>
           <Route path="/games" element={<Games userData={userData} setUserData={setUserData} />} />
           <Route path="/account" element={<Account userData={userData} setUserData={setUserData} />} />

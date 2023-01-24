@@ -1,7 +1,12 @@
 import { useState } from "react";
+import '../../../CSS/UserForm.css'
+import { useLocation } from 'react-router-dom';
+
 
 export default function UserForm({ handleSubmit }) {
     const [user, setUser] = useState({ username: '', password: '' });
+    const location = useLocation();
+    const buttonText = location.pathname === '/register' ? 'Sign in' : 'Login';
 
     const handleSubmitDecorator = (e) => {
         e.preventDefault();
@@ -17,10 +22,17 @@ export default function UserForm({ handleSubmit }) {
     };
 
     return (
-        <form onSubmit={handleSubmitDecorator}>
-            <input type="text" name="username" placeholder="Username" value={user.username} onChange={handleChange} /><br/>
-            <input type="password" name="password" placeholder="Password" value={user.password} onChange={handleChange} /><br/>
-            <button type="submit">Submit</button>
+
+        <form className="userform-form" onSubmit={handleSubmitDecorator}>
+            <div className="userform-username">
+                <label htmlFor="username" className="userform-label">Username</label>
+                <input className="userform-input" type="text" id="username" name="username" placeholder="Username" value={user.username} onChange={handleChange} />
+            </div>
+            <div className="userform-password">
+                <label htmlFor="password" className="userform-label">Password</label>
+                <input className="userform-input" type="password" id="password" name="password" placeholder="Password" value={user.password} onChange={handleChange} />
+            </div>
+            <button className="salmon-button userform-button" type="submit">{buttonText}</button>
         </form>
     );
 }
