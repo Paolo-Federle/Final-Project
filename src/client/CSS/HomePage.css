@@ -1,0 +1,29 @@
+.page-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 50px;
+}
+
+.left-side {
+    grid-column: 1 / 2;
+    text-align: left;
+    padding-left: 80px;
+}
+
+.right-side {
+    grid-column: 2 / 3;
+    text-align: center;
+}
+
+.homepage-img {
+    width: 70%;
+
+}
+
+.welcome {
+    padding: 0;
+}
+
+.home-paragraph{
+    margin: 30px 0 50px 0;
+}

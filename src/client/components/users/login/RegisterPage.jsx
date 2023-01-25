@@ -1,9 +1,12 @@
 import UserForm from './UserForm'
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from "react";
 import '../../../CSS/LoginPage.css'
 const apiUrl = process.env.REACT_APP_API_URL
 
 const RegisterPage = ({ }) => {
+  const [isRegistered, setIsRegistered] = useState(false);
+
   const handleRegister = async ({ username, password }) => {
     fetch(`${apiUrl}/user/register/`, {
       method: "POST",
@@ -12,7 +15,14 @@ const RegisterPage = ({ }) => {
     })
       .then((res) => res.json())
       .then((data) => console.log(data));
+    setIsRegistered(true);
   }
+
+  useEffect(() => {
+    if (isRegistered) {
+      window.location.href = "/";
+    }
+  }, [isRegistered]);
 
   return (
     <div className='center gradient-background gradient-register'>

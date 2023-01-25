@@ -1,4 +1,5 @@
 import HeaderMenu from '../../header/HeaderMenu'
+import RoomCanvas from './RoomCanvas'
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Link, useParams } from 'react-router-dom'
@@ -65,26 +66,37 @@ function ChatRoom({ userData, setUserData }) {
 
     return (
         <div className=''>
-            <div className='foreground'>
+            <div className=''>
+                {/* foreground */}
                 <Routes>
                     <Route path="/" element
                         ={<HeaderMenu userData={userData} setUserData={setUserData} />} />
                 </Routes>
-                <div ref={messageContainerRef} className='message-container'>
-                    <h1>ChatRoom</h1>
-                    {messages.map(message => (
-                        <div className={`${message.senderId === userData.userId ? 'sent message' : 'received message'} chat-message-container`}>
-                            <p className="sent-by">{message.sender.username}</p>
-                            <p className="message-content">{message.content}</p>
-                            <p className="sent-at">Sent at: {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                <div className='page-container'>
+                    <div className='canvas-space'>
+                        <Routes>
+                            <Route path="/" element
+                                ={<RoomCanvas userData={userData} setUserData={setUserData} />} />
+                        </Routes>
+                    </div>
+                    <div className='ChatRoom-space'>
+                        <div ref={messageContainerRef} className='message-container'>
+                            <h1>ChatRoom</h1>
+                            {messages.map(message => (
+                                <div className={`${message.senderId === userData.userId ? 'sent message' : 'received message'} chat-message-container`}>
+                                    <p className="sent-by">{message.sender.username}</p>
+                                    <p className="message-content">{message.content}</p>
+                                    <p className="sent-at">Sent at: {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                </div>
+                            ))}
+                            <form className='chat-form' onSubmit={handleSubmit}>
+                                <input className='chat-form-input' type="text" value={inputMessage} onChange={e => setInputMessage(e.target.value)} placeholder="Type your message here..." />
+                                <button className='chat-form-submit' type="submit">
+                                    <FontAwesomeIcon icon={faArrowRight} />
+                                </button>
+                            </form>
                         </div>
-                    ))}
-                    <form className='chat-form' onSubmit={handleSubmit}>
-                        <input className='chat-form-input' type="text" value={inputMessage} onChange={e => setInputMessage(e.target.value)} placeholder="Type your message here..." />
-                        <button className='chat-form-submit' type="submit">
-                            <FontAwesomeIcon icon={faArrowRight} />
-                        </button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

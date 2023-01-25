@@ -6,7 +6,8 @@ const {
     addUserByIdToRoom,
     getRoomsByUserId,
     addUserByUsernameToRoom,
-    removeUserByUsernameFromRoom
+    removeUserByUsernameFromRoom,
+    updateCanvasByRoom
 } = require('../domain/room')
 const { getUserById, getUserByUsername } = require('../domain/user')
 const { sendDataResponse, sendMessageResponse } = require('../utils/responses.js')
@@ -160,6 +161,21 @@ const removeUserByUsername = async (req, res) => {
     }
 }
 
+const updateCanvas = async (req, res) => {
+    const roomId = parseInt(req.params.id);
+    if (!req.body.hasOwnProperty("canvas") || typeof req.body.canvas !== "string") {
+        return sendMessageResponse(res, 400, 'Bad request, canvas is missing or not a string');
+    }
+    const canvas = req.body.canvas;
+    try {
+        const updatedRoom = await updateCanvasByRoom(roomId, canvas);
+        return sendDataResponse(res, 200, updatedRoom);
+    } catch (e) {
+        console.error(e);
+        return sendMessageResponse(res, 500, 'Unable to update canvas');
+    }
+}
+
 module.exports = {
     create,
     getAll,
@@ -169,5 +185,6 @@ module.exports = {
     getRoomsByUser,
     createRoomAndAddUser,
     addUserByUsername,
-    removeUserByUsername
+    removeUserByUsername,
+    updateCanvas
 };

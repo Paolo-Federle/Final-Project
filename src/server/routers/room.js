@@ -9,7 +9,8 @@ const {
     getRoomsByUser,
     createRoomAndAddUser,
     addUserByUsername,
-    removeUserByUsername
+    removeUserByUsername,
+    updateCanvas
 } = require('../controllers/room');
 
 const router = express.Router();
@@ -21,7 +22,8 @@ router.get('/:id', getById);
 router.put('/adduser', addUser)
 router.get('/user/:userId', getRoomsByUser)
 router.post('/user/:userId', createRoomAndAddUser);
-router.put('/adduserByUsername', addUserByUsername)
+router.put('/adduserByUsername', addUserByUsername);
+router.patch('/:id/canvas', updateCanvas);
 
 
 

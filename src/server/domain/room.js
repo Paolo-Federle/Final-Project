@@ -36,7 +36,8 @@ async function getRoomById(id) {
             createdAt: true,
             updatedAt: true,
             users: true,
-            messages: true
+            messages: true,
+            canvas: true
         }
     })
     return room;
@@ -91,6 +92,16 @@ async function removeUserByUsernameFromRoom(username, roomId) {
     return room;
 }
 
+async function updateCanvasByRoom(roomId, canvas) {
+    const updatedRoom = await prisma.room.update({
+        where: { id: roomId },
+        data: {
+            canvas: canvas
+        }
+    });
+    return updatedRoom;
+}
+
 module.exports = {
     getAllRooms,
     createRoom,
@@ -99,5 +110,6 @@ module.exports = {
     addUserByIdToRoom,
     getRoomsByUserId,
     addUserByUsernameToRoom,
-    removeUserByUsernameFromRoom
+    removeUserByUsernameFromRoom,
+    updateCanvasByRoom
 };
