@@ -1,0 +1,17 @@
+.canvas-element {
+    border: 1px solid black;
+}
+
+.canvas-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.canvas-buttons button {
+    margin: 0 10px;
+}
+
+.canvas-buttons button:disabled {
+    background-color: gray;
+}

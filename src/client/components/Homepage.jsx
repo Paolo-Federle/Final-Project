@@ -4,13 +4,10 @@ import HeaderMenu from "./header/HeaderMenu"
 import apiUrl from '../App.js'
 
 function HomePage({ userData, setUserData }) {
-    console.log(userData.token)
 
     return (
 
         <div className="background">
-            {/* add grey, padding and 100vh ^^ */}
-            {/* add white */}
             <div className='foreground'>
                 <Routes>
                     <Route path="/" element={<HeaderMenu userData={userData} setUserData={setUserData} />} />

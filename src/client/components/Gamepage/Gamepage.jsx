@@ -1,6 +1,6 @@
 import HeaderMenu from "../header/HeaderMenu"
 import RoomDetail from "./room/RoomDetail"
-
+import '../../CSS/GamePage.css'
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -76,26 +76,34 @@ function Games({ userData, setUserData }) {
                 </Routes>
                 <div className="Gamepage">
                     <h1>Games</h1>
-                    {Array.isArray(rooms) && rooms.length > 0
-                        ? rooms.map(room => (
-                            <div key={room.id}>
-                                <span>Room: </span>
-                                <Link to={`/games/rooms/${room.id}/detail`}>{room.name}</Link>
-                                <span> link to </span>
-                                <Link to={`/games/rooms/${room.id}/chat`}>chat</Link>
-
-                            </div>
-                        ))
-                        : <p>There's no room to show</p>
-                    }
-                    <h2>Create Room</h2>
                     <form onSubmit={handleSubmit}>
                         <label>
-                            Room Name:
+                        Create a new Room: 
                             <input type="text" value={newRoomName} onChange={e => setNewRoomName(e.target.value)} />
                         </label>
                         <input type="submit" value="Submit" />
                     </form>
+                    <div className="rooms-container">
+                        <div className="room-grid">
+                            {Array.isArray(rooms) && rooms.length > 0
+                                ? rooms.map((room, index) => (
+                                    <div key={room.id} className="room-card">
+                                        <div className="room-info">
+                                            <img src={`https://picsum.photos/200?id=${room.id}`} className="games-img" alt="" />
+                                            <h3 className="room-name">
+                                                <Link to={`/games/rooms/${room.id}/chat`}>{room.name}</Link>
+                                            </h3>
+                                            <p className="room-link">
+                                                <Link to={`/games/rooms/${room.id}/detail`}>Enter</Link>
+                                            </p>
+                                            <p className="room-type">type:</p>
+                                        </div>
+                                    </div>
+                                ))
+                                : <p>There's no room to show</p>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

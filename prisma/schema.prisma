@@ -12,13 +12,13 @@ datasource db {
 }
 
 model User {
-  id               Int       @id @default(autoincrement())
-  username         String    @unique
-  password         String
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  rooms            Room[]
-  sentMessages     Message[] @relation("SentMessages")
+  id           Int       @id @default(autoincrement())
+  username     String    @unique
+  password     String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  rooms        Room[]
+  sentMessages Message[] @relation("SentMessages")
 }
 
 model Room {
@@ -28,15 +28,24 @@ model Room {
   updatedAt DateTime  @updatedAt
   users     User[]
   messages  Message[]
+  canvas    Canvas?
 }
 
 model Message {
-  id          Int      @id @default(autoincrement())
-  content     String   
-  roomId      Int
-  room        Room     @relation(fields: [roomId], references: [id])
-  senderId    Int
-  sender      User     @relation(name: "SentMessages", fields: [senderId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  content   String
+  roomId    Int
+  room      Room     @relation(fields: [roomId], references: [id])
+  senderId  Int
+  sender    User     @relation(name: "SentMessages", fields: [senderId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Canvas {
+  id        Int      @id @default(autoincrement())
+  room      Room     @relation(fields: [id], references: [id])
+  state     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

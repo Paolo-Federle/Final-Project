@@ -52,7 +52,7 @@ function App() {
       <Routes>
         <Route path="/register" element={<RegisterPage userData={userData} />} name="register" />
         <Route path="/login" element={<LoginPage setUserData={setUserData} />} name="login" />
-        <Route path="/" element={<Homepage userData={userData} setUserData={setUserData} />} />
+        <Route index path="/" element={<Homepage userData={userData} setUserData={setUserData} />} />
         <Route path="/project" element={<ProjectPage userData={userData} setUserData={setUserData} />} />
         <Route path="/canvas" element={<RoomCanvas userData={userData} setUserData={setUserData} />} />
         <Route element={<AuthenticateUser userData={userData} redirectPath="/login" />}>
@@ -76,7 +76,7 @@ function isLoggedIn(userData) {
   return userData.token !== null && userData.token !== undefined;
 }
 
-const AuthenticateUser = ({ userData, children, redirectPath = '/' }) => {
+const AuthenticateUser = ({ userData, children, redirectPath = '/login' }) => {
   if (!isLoggedIn(userData)) {
     return <Navigate to={redirectPath} replace />
   }
