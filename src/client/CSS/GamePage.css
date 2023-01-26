@@ -1,6 +1,6 @@
 .room-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
 .room-card {
@@ -13,6 +13,5 @@
 
 .games-img {
     max-width: 230px;
-    /* width: 100%;
-    height: 100%; */
+    width: 100%;
 }

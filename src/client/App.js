@@ -39,13 +39,13 @@ function App() {
 
   const [response, setResponse] = useState("");
 
-  useEffect(() => {
-    const socket = io(ENDPOINT);
-    socket.on("FromAPI", data => {
-      setResponse(data);
-    });
-    return () => socket.disconnect();
-  }, []);
+  // useEffect(() => {
+  //   const socket = io(ENDPOINT);
+  //   socket.on("FromAPI", data => {
+  //     setResponse(data);
+  //   });
+  //   return () => socket.disconnect();
+  // }, []);
 
   return (
     <div>

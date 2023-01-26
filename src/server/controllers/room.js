@@ -44,8 +44,11 @@ const deleteOne = async (req, res) => {
 
 const getById = async (req, res) => {
     try {
-        const id = parseInt(req.params.id)
-        const roomById = await getRoomById(id)
+        const id = (req.params.id)
+        if (!id) {
+            return sendMessageResponse(res, 500, 'no Id was provided')
+        }
+        const roomById = await getRoomById(parseInt(id))
 
         return sendDataResponse(res, 200, roomById)
     } catch (e) {

@@ -26,7 +26,7 @@
 .chat-form {
   position: fixed;
   bottom: 0;
-  width: 70%;
+  width: 49%;
   display: flex;
   justify-content: space-between;
   /* this will make sure the input and button are on the same line */
@@ -62,16 +62,23 @@
   margin: 0;
 }
 
-.page-container{
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
+.page-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   padding: 0;
 }
 
 .ChatRoom-space {
   padding-left: 10px;
+  height: calc(100vh - 64px)
 }
 
 .canvas-space {
-  
+  overflow-y: scroll;
+  overflow-x: scroll;
+  height: calc(100vh - 64px);
+}
+
+.message-list{
+  padding-bottom: 36px;
 }

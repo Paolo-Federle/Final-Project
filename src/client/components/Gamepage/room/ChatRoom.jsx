@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import '../../../CSS/ChatRoom.css'
 
+
 const apiUrl = process.env.REACT_APP_API_URL
 
 function ChatRoom({ userData, setUserData }) {
@@ -15,6 +16,7 @@ function ChatRoom({ userData, setUserData }) {
     const [messages, setMessages] = useState([])
     const [inputMessage, setInputMessage] = useState('')
     const messageContainerRef = useRef(null)
+
 
     // Fetch messages from server
     const fetchMessages = async () => {
@@ -27,6 +29,14 @@ function ChatRoom({ userData, setUserData }) {
             console.log(error)
         }
     }
+
+    // cheat socket
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchMessages();
+        }, 2000);
+        return () => clearInterval(interval);
+    }, [id]);
 
     // Fetch messages when component mounts and when room ID changes
     useEffect(() => {
@@ -82,13 +92,15 @@ function ChatRoom({ userData, setUserData }) {
                     <div className='ChatRoom-space'>
                         <div ref={messageContainerRef} className='message-container'>
                             <h1>ChatRoom</h1>
-                            {messages.map(message => (
-                                <div className={`${message.senderId === userData.userId ? 'sent message' : 'received message'} chat-message-container`}>
-                                    <p className="sent-by">{message.sender.username}</p>
-                                    <p className="message-content">{message.content}</p>
-                                    <p className="sent-at">Sent at: {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                </div>
-                            ))}
+                            <div className='message-list'>
+                                {messages.map(message => (
+                                    <div className={`${message.senderId === userData.userId ? 'sent message' : 'received message'} chat-message-container`}>
+                                        <p className="sent-by">{message.sender.username}</p>
+                                        <p className="message-content">{message.content}</p>
+                                        <p className="sent-at">Sent at: {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                    </div>
+                                ))}
+                            </div>
                             <form className='chat-form' onSubmit={handleSubmit}>
                                 <input className='chat-form-input' type="text" value={inputMessage} onChange={e => setInputMessage(e.target.value)} placeholder="Type your message here..." />
                                 <button className='chat-form-submit' type="submit">

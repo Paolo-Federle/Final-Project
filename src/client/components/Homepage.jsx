@@ -12,7 +12,7 @@ function HomePage({ userData, setUserData }) {
                 <Routes>
                     <Route path="/" element={<HeaderMenu userData={userData} setUserData={setUserData} />} />
                 </Routes>
-                <div className='page-container'>
+                <div className='homepage-container'>
                     <div className='left-side'>
                         <h1 className='welcome'>Welcome</h1>
                         <h2>We Set the Canvas,<br />You Draw Your Own Adventure.</h2>
