@@ -29,7 +29,6 @@ const RoomCanvas = () => {
             return
         }
         const canvas = JSON.stringify(fabricCanvas.toJSON())
-        console.log('canvas ', canvas)
         const url = `${apiUrl}/room/${id}/canvas`
         fetch(url, {
             method: 'PATCH',
@@ -69,8 +68,6 @@ const RoomCanvas = () => {
         }
     }, [fabricCanvas, id]);
 
-
-
     // useEffect(() => {
     //     if (fabricCanvas) {
     //         getJson()
@@ -79,7 +76,6 @@ const RoomCanvas = () => {
 
     const handleCreateCanvas = async () => {
         if (!fabricCanvas) {
-            console.log('handleCreateCanvas')
             const json = await getRoomCanvas(id)
             const newCanvas = new fabric.Canvas(canvasRef.current, {
                 height: 600,
@@ -150,7 +146,7 @@ const RoomCanvas = () => {
             canvi.renderAll();
         });
         setFabricCanvas(fabricCanvas)
-        
+        saveCanvas(fabricCanvas, id)
     }
 
     function showCanvas() {

@@ -16,7 +16,8 @@ function ChatRoom({ userData, setUserData }) {
     const [messages, setMessages] = useState([])
     const [inputMessage, setInputMessage] = useState('')
     const messageContainerRef = useRef(null)
-
+    const [history, setHistory] = useState([])
+    const [index, setIndex] = useState(0)
 
     // Fetch messages from server
     const fetchMessages = async () => {
@@ -30,11 +31,11 @@ function ChatRoom({ userData, setUserData }) {
         }
     }
 
-    // cheat socket
+    // Cheat socket
     useEffect(() => {
         const interval = setInterval(() => {
             fetchMessages();
-        }, 2000);
+        }, 5000);
         return () => clearInterval(interval);
     }, [id]);
 
@@ -48,9 +49,8 @@ function ChatRoom({ userData, setUserData }) {
         messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight
     }, [messages])
 
-    // Send message to server
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    // Function to submit a message
+    const sendMessage = async () => {
         if (inputMessage.trim() === '') return
 
         try {
@@ -65,6 +65,7 @@ function ChatRoom({ userData, setUserData }) {
             })
             if (!response.ok) throw new Error("Failed to create message")
             const data = await response.json()
+            setHistory([...history, { content: data.data }])
             fetchMessages()
             setInputMessage('')
         } catch (error) {
@@ -72,7 +73,38 @@ function ChatRoom({ userData, setUserData }) {
         }
     }
 
+    // Send message to server
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        sendMessage()
+        setIndex(0)
+    }
+
     const debouncedInput = useMemo(() => debounce(inputMessage, 500), [inputMessage])
+
+    const handleKeyDown = async (e) => {
+        if (history.length) {
+          let newIndex = index;
+          if (e.key === 'ArrowUp' && history.length > Math.abs(newIndex)) {
+            newIndex--;
+            let oldMessage = history[history.length + newIndex];
+            if (oldMessage) {
+              setInputMessage(oldMessage.content.content);
+            }
+          } else if (e.key === 'ArrowDown') {
+            if (newIndex >= 0) {
+              setInputMessage('');
+              return;
+            }
+            newIndex++;
+            let nextMessage = history[history.length + newIndex];
+            if (nextMessage) {
+              setInputMessage(nextMessage.content.content);
+            }
+          }
+          setIndex(newIndex);
+        }
+      };
 
     return (
         <div className=''>
@@ -102,7 +134,7 @@ function ChatRoom({ userData, setUserData }) {
                                 ))}
                             </div>
                             <form className='chat-form' onSubmit={handleSubmit}>
-                                <input className='chat-form-input' type="text" value={inputMessage} onChange={e => setInputMessage(e.target.value)} placeholder="Type your message here..." />
+                                <input className='chat-form-input' type="text" value={inputMessage} onKeyDown={handleKeyDown} onChange={e => setInputMessage(e.target.value)} placeholder="Type your message here..." />
                                 <button className='chat-form-submit' type="submit">
                                     <FontAwesomeIcon icon={faArrowRight} />
                                 </button>
