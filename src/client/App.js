@@ -3,7 +3,7 @@ import LoginPage from './components/users/login/LoginPage'
 import Homepage from './components/Homepage'
 import Games from './components/Gamepage/Gamepage';
 import RoomDetail from './components/Gamepage/room/RoomDetail';
-import ChatRoom from './components/Gamepage/room/ChatRoom';
+import ChatRoom from './components/Gamepage/room/chat/ChatRoom';
 import Account from './components/users/login/Account';
 import ProjectPage from './components/Projectpage';
 import RegisterPage from './components/users/login/RegisterPage';
@@ -20,9 +20,9 @@ function App() {
     username: null,
     userId: null
   });
- 
 
-  
+
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -37,16 +37,6 @@ function App() {
     }
   }, [token]);
 
-  const [response, setResponse] = useState("");
-
-  // useEffect(() => {
-  //   const socket = io(ENDPOINT);
-  //   socket.on("FromAPI", data => {
-  //     setResponse(data);
-  //   });
-  //   return () => socket.disconnect();
-  // }, []);
-
   return (
     <div>
       <Routes>
@@ -54,7 +44,6 @@ function App() {
         <Route path="/login" element={<LoginPage setUserData={setUserData} />} name="login" />
         <Route index path="/" element={<Homepage userData={userData} setUserData={setUserData} />} />
         <Route path="/project" element={<ProjectPage userData={userData} setUserData={setUserData} />} />
-        <Route path="/canvas" element={<RoomCanvas userData={userData} setUserData={setUserData} />} />
         <Route element={<AuthenticateUser userData={userData} redirectPath="/login" />}>
           <Route path="/games" element={<Games userData={userData} setUserData={setUserData} />} />
           <Route path="/account" element={<Account userData={userData} setUserData={setUserData} />} />
